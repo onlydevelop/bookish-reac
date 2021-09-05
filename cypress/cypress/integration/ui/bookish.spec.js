@@ -1,16 +1,42 @@
 import axios from 'axios';
 
 describe('Bookish application', () => {
-  before(() => {
+  before(() => clearBooks())
+
+  beforeEach(() => setBooks())
+  
+  afterEach(() => clearBooks())
+
+  after(() => setBooks())
+  
+  const clearBooks = () => {
     return axios
       .delete('http://localhost:8080/books?_cleanup=true')
-      .catch((err) => err);
-  });
+      .catch(err => err);
+  }
 
-  beforeEach(() => {
+  const setBooks = () => {
     const books = [
-      { 'name': 'Refactoring', 'id': 1 },
-      { 'name': 'Domain-driven design', 'id': 2 }
+      {
+        "name": "Refactoring", 
+        "id": 1, 
+        "description": "Martin Fowler's Refactoring defined core ideas and techniques that hundreds of thousands of developers have used to improve their software."
+      },
+      {
+        "name": "Domain-driven design", 
+        "id": 2, 
+        "description": "Explains how to incorporate effective domain modeling into the software development process."
+      },
+      {
+        "name": "Building Microservices", 
+        "id": 3, 
+        "description": "Author Sam Newman provides you with a firm grounding in the concepts while diving into current solutions for modeling, integrating, testing, deploying, and monitoring your own autonomous services."
+      },
+      {
+        "name": "Acceptance Test Driven Development with React", 
+        "id": 4,
+        "description": "This book describes how to apply the Acceptance Test Driven Development when developing a Web Application named bookish with React / Redux and other tools in react ecosystem."
+      }
     ];
   
     return books.map(item =>
@@ -18,15 +44,8 @@ describe('Bookish application', () => {
         { headers: { 'Content-Type': 'application/json' } }
       )
     );
-  })
-  
-  afterEach(() => {
-    return axios
-      .delete('http://localhost:8080/books?_cleanup=true')
-      .catch(err => err);
-  })
+  }
 
-  
   it('Visits the bookish', () => {
     cy.visit('http://localhost:3000/');
     cy.get('h2[data-test="heading"]').contains('Bookish')
@@ -36,9 +55,9 @@ describe('Bookish application', () => {
     cy.visit('http://localhost:3000/');
     cy.get('div[data-test="book-list"]').should('exist');
     cy.get('div.book-item').should((books) => {
-      expect(books).to.have.length(2);
+      expect(books).to.have.length(4);
       const titles = [...books].map(x => x.querySelector('h2').innerHTML);
-      expect(titles).to.deep.equal(['Refactoring', 'Domain-driven design']);
+      expect(titles).to.deep.equal(['Refactoring', 'Domain-driven design', 'Building Microservices', 'Acceptance Test Driven Development with React']);
     });
   });
   
