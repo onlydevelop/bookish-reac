@@ -25,7 +25,7 @@ const BookList = ({loading, error, books}) => {
                 className={classes.name}>
                   {book.name}
                 </Typography>
-                <Typography variant='body2' color='textSecondary's
+                <Typography variant='body2' color='textSecondary'
                 component='p' className={classes.description}>
                   {book.description}
                 </Typography>

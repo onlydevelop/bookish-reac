@@ -19,10 +19,8 @@ describe('BookDetail', () => {
     it('renders description', () => {
         const props = {
           book: {
-            name: 'Refactoring',
-            description: "Martin Fowler's Refactoring defined core ideas and techniques " +
-              "that hundreds of thousands of developers have used to improve " +
-              "their software."
+            name: 'Refactoring',  
+            description: "Martin Fowler's Refactoring."
           }
         };
       
@@ -44,5 +42,23 @@ describe('BookDetail', () => {
         const description = container.querySelector('p.book-description');
         expect(description.innerHTML).toEqual(props.book.name);
       })
+      
+      it('Shows *more* link when description is too long', () => {
+        const props = {
+          book: {
+            name: 'Refactoring',
+            description: "Martin Fowler's Refactoring defined core ideas and techniques that hundreds of thousands of developers have used to improve their software."
+          }
+        };
+      
+        const { container } = render(<BookDetail {...props} />);
+      
+        const link = container.querySelector('a.show-more');
+        const description = container.querySelector('p.book-description');
+      
+        expect(link.innerHTML).toEqual('Show more');
+        expect(description.innerHTML).toEqual("Martin Fowler's Refactoring defined core ideas ...");
+      })
+      
   });
   
