@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
-export const useRemoteService = (url, initial) => {
-    const [data, setData] = useState(initial);
+export const useRemoteService = (initialUrl, initialData) => {
+    const [data, setData] = useState(initialData);
+    const [url, setUrl] = useState(initialUrl);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
@@ -20,7 +21,7 @@ export const useRemoteService = (url, initial) => {
           }
         };
         fetchBooks();
-      }, []);
+      }, [url]);
 
-      return {data, loading, error};
+      return {data, loading, error, setUrl};
 }
