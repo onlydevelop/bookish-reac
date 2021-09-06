@@ -18,7 +18,7 @@ describe('SearchBox', () => {
     expect(props.onSearch).toHaveBeenCalled();
   });
 
-  it('trim empty strings', () => {
+  it('trims empty strings', () => {
     const props = {
       term: '',
       onSearch: jest.fn()
